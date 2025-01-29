@@ -1,8 +1,9 @@
 const express = require("express");
 const path = require("path");
 const mongoose = require("mongoose");
+const Campground = require("./models/campground");
+
 mongoose.connect("mongodb://localhost:27017/camp");
-const Campground = require("./models/camp");
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
@@ -16,12 +17,12 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 app.get("/", (req, res) => {
-  res.render("start");
+  res.render("home");
 });
-app.get("/makecamp", async (req, res) => {
-  const camp = new Campground({ title: "Make camp great again", description: "cool camp!!" });
-  await camp.save();
-  res.send(camp);
+
+app.get("/campgrounds", async (req, res) => {
+  const campgrounds = await Campground.find({});
+  res.render("campgrounds/index", { campgrounds });
 });
 
 app.listen(3000, () => {
