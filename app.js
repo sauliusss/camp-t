@@ -1,6 +1,6 @@
 const express = require("express");
 const path = require("path");
-const { campgroundSchema, reviewSchema } = require("./schemas");
+const { campgroundSchema, reviewSchema } = require("./schemas.js");
 const ejsMate = require("ejs-mate");
 const catchAsync = require("./utils/catchAsync");
 const mongoose = require("mongoose");
@@ -79,7 +79,9 @@ app.post(
 app.get(
   "/campgrounds/:id",
   catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id);
+    const campground = await Campground.findById(req.params.id).populate("reviews");
+    console.log(campground);
+
     res.render("campgrounds/show", { campground });
   })
 );
