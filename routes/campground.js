@@ -4,6 +4,7 @@ const catchAsync = require("../utils/catchAsync");
 const { isLoggedIn, isAuthor, validateCampground } = require("../middleware.js");
 
 const Campground = require("../models/campground");
+const { path } = require("express/lib/application.js");
 
 router.get(
   "/",
@@ -35,7 +36,14 @@ router.post(
 router.get(
   "/:id",
   catchAsync(async (req, res) => {
-    const campground = await Campground.findById(req.params.id).populate("reviews").populate("author");
+    const campground = await Campground.findById(req.params.id)
+      .populate({
+        path: "reviews",
+        populate: {
+          path: "author",
+        },
+      })
+      .populate("author");
     console.log(campground);
 
     if (!campground) {
