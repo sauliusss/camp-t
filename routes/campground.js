@@ -7,17 +7,12 @@ const { isLoggedIn, isAuthor, validateCampground } = require("../middleware.js")
 const Campground = require("../models/campground");
 const { path } = require("express/lib/application.js");
 
-router.get("/", catchAsync(campgrounds.index));
+router.route("/").get(catchAsync(campgrounds.index)).post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
 
 router.get("/new", isLoggedIn, campgrounds.renderNewForm);
 
-router.post("/", isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
-
-router.get("/:id", catchAsync(campgrounds.showCampground));
-router.get("/:id/edit", isLoggedIn, isAuthor, catchAsync(campgrounds.renderEditForm));
+router.route("/:id").get(catchAsync(campgrounds.showCampground)).get(isLoggedIn, isAuthor, catchAsync(campgrounds.renderEditForm)).delete(isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground));
 
 router.put("/:id", isLoggedIn, isAuthor, validateCampground, catchAsync(campgrounds.updateCampground));
-
-router.delete("/:id", isLoggedIn, isAuthor, catchAsync(campgrounds.deleteCampground));
 
 module.exports = router;
