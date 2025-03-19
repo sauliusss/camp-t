@@ -10,14 +10,7 @@ const upload = multer({ storage });
 const Campground = require("../models/campground");
 const { path } = require("express/lib/application.js");
 
-router
-  .route("/")
-  .get(catchAsync(campgrounds.index))
-  // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground));
-  .post(upload.array("image"), (req, res) => {
-    console.log(req.body, req.files);
-    res.send("it work?");
-  });
+router.route("/").get(catchAsync(campgrounds.index)).post(isLoggedIn, upload.array("image"), validateCampground, catchAsync(campgrounds.createCampground));
 
 router.get("/new", isLoggedIn, campgrounds.renderNewForm);
 
