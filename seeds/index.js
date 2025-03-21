@@ -24,6 +24,16 @@ const seedDB = async () => {
       image: `https://picsum.photos/400?random=${Math.random()}`,
       description: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique eos reiciendis fugit ipsa expedita alias ab quod, pariatur facere, quia ut error distinctio nobis adipisci incidunt itaque sed dicta ratione?",
       price,
+      images: [
+        {
+          url: "https://res.cloudinary.com/djx2nzewn/image/upload/v1742547698/camp-t/tbzkbhdxb20gu33lbyby.png",
+          filename: "camp-t/tbzkbhdxb20gu33lbyby",
+        },
+        {
+          url: "https://res.cloudinary.com/djx2nzewn/image/upload/v1742547699/camp-t/zn9q6qnhnlpnbq3hk6hd.png",
+          filename: "camp-t/zn9q6qnhnlpnbq3hk6hd",
+        },
+      ],
     });
     await camp.save();
   }
