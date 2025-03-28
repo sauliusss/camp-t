@@ -1,4 +1,6 @@
 const Campground = require("../models/campground");
+const maptilerClient = require("@maptiler/client");
+maptilerClient.config.apiKey = process.env.MAPTILER_API_KEY;
 const { cloudinary } = require("../cloudinary");
 module.exports.index = async (req, res) => {
   const campgrounds = await Campground.find({});
@@ -11,8 +13,9 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createCampground = async (req, res, next) => {
   // if (!req.body.campground) throw new ExpressError("Invalid Campground Data", 400);
-
+  const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
   const campground = new Campground(req.body.campground);
+  campground.geometry = geoData.features[0].geometry;
   campground.images = req.files.map((f) => ({ url: f.path, filename: f.filename }));
   campground.author = req.user._id;
   await campground.save();
@@ -54,6 +57,8 @@ module.exports.updateCampground = async (req, res) => {
 
   const campground = await Campground.findByIdAndUpdate(id, { ...req.body.campground }, { new: true });
   const imgs = req.files.map((f) => ({ url: f.path, filename: f.filename }));
+  const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
+  campground.geometry = geoData.features[0].geometry;
   campground.images = push(...imgs);
   if (req.body.deleteImages) {
     for (let filename of req.body.deleteImages) {
