@@ -13,6 +13,7 @@ module.exports.renderNewForm = (req, res) => {
 
 module.exports.createCampground = async (req, res, next) => {
   // if (!req.body.campground) throw new ExpressError("Invalid Campground Data", 400);
+
   const geoData = await maptilerClient.geocoding.forward(req.body.campground.location, { limit: 1 });
   const campground = new Campground(req.body.campground);
   campground.geometry = geoData.features[0].geometry;
@@ -20,7 +21,6 @@ module.exports.createCampground = async (req, res, next) => {
   campground.author = req.user._id;
   await campground.save();
   console.log(campground);
-
   req.flash("success", "Succesfully made a new Campground");
   res.redirect(`/campgrounds/${campground._id}`);
 };

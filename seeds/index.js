@@ -24,6 +24,11 @@ const seedDB = async () => {
       image: `https://picsum.photos/400?random=${Math.random()}`,
       description: "Lorem ipsum dolor sit amet consectetur, adipisicing elit. Similique eos reiciendis fugit ipsa expedita alias ab quod, pariatur facere, quia ut error distinctio nobis adipisci incidunt itaque sed dicta ratione?",
       price,
+      // gal reiks istrint jei neveiks paveiksliukai
+      geometry: {
+        type: "Point",
+        coordinates: [-113.1331, 47.0202],
+      },
       images: [
         {
           url: "https://res.cloudinary.com/djx2nzewn/image/upload/v1742547698/camp-t/tbzkbhdxb20gu33lbyby.png",
