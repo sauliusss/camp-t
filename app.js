@@ -26,12 +26,18 @@ passport.deserializeUser(User.deserializeUser());
 const userRoutes = require("./routes/users.js");
 const campgroundRoutes = require("./routes/campground.js");
 const reviewRoutes = require("./routes/reviews.js");
+const MongoStore = require("connect-mongo");
 
 // const { title } = require("process");
 // const { error } = require("console");
 
-mongoose.connect("mongodb://localhost:27017/camp");
+// const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/camp";
 
+const dbUrl = "mongodb://localhost:27017/camp";
+
+// mongoose.connect("mongodb://localhost:27017/camp");
+
+mongoose.connect(dbUrl);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error"));
 db.once("open", () => {
@@ -55,8 +61,20 @@ app.use(
 
 const secret = process.env.SECRET || "thisshouldbeabettersecret!";
 
+const store = MongoStore.create({
+  mongoUrl: dbUrl,
+  touchAfter: 24 * 60 * 60,
+  crypto: {
+    secret: "thisshouldbeabettersecret!",
+  },
+});
+
+store.on("error", function (e) {
+  console.log("SESSION STORE ERROR", e);
+});
+
 const sessionConfig = {
-  // store,
+  store,
   name: "session",
   secret,
   resave: false,
