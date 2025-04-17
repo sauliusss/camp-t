@@ -33,7 +33,7 @@ const MongoStore = require("connect-mongo");
 
 // const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/camp";
 
-const dbUrl = "mongodb://216.24.60.0/24:27017/camp";
+const dbUrl = "mongodb://216.24.60.0/24/camp";
 
 // mongoose.connect("mongodb://localhost:27017/camp");
 
