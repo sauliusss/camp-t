@@ -31,9 +31,9 @@ const MongoStore = require("connect-mongo");
 // const { title } = require("process");
 // const { error } = require("console");
 
-const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/camp";
+// const dbUrl = process.env.DB_URL || "mongodb://localhost:27017/camp";
 
-// const dbUrl = "mongodb://localhost:27017/camp";
+const dbUrl = "mongodb://216.24.60.0/24:27017/camp";
 
 // mongoose.connect("mongodb://localhost:27017/camp");
 
