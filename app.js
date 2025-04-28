@@ -32,8 +32,7 @@ const MongoStore = require("connect-mongo");
 // const { error } = require("console");
 
 const dbUrl = process.env.DB_URL || "mongodb://127.0.0.1:27017/camp";
-
-// const dbUrl = "mongodb://127.0.0.1:27017/camp";
+// const dbUrl = "mongodb://localhost:27017/camp";
 
 // mongoose.connect("mongodb://localhost:27017/camp");
 
@@ -108,7 +107,7 @@ app.use(
         "'self'",
         "blob:",
         "data:",
-        "https://res.cloudinary.com/djx2nzewn/", //SHOULD MATCH YOUR CLOUDINARY ACCOUNT!
+        "https://res.cloudinary.com/djx2nzewn/", // CLOUDINARY ACCOUNT!
         "https://images.unsplash.com/",
         "https://api.maptiler.com/",
       ],
